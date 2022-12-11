@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>凸透镜成像规律</title>
+<style>
+	div.move{width: 450px;height: 300px;background-color:}
+	div.zhou{border-top-style:dashed; position:absolute; top:150px;width:1000px}
+	
+	div.jing{ width: 20px;height: 300px;position:absolute;top:0px;left:450px;
+		border-radius: 50% / 50%;border-style: solid}
+	
+	div.F2L{width: 10px;height: 10px;position:absolute;top:-7px;left:150px;
+	background-color:black;}
+	div.F1L{width: 10px;height: 10px;position:absolute;top:-7px;left:300px;
+	background-color:black;}
+	div.F1R{width: 10px;height: 10px;position:absolute;top:-7px;left:600px;
+	background-color:black;}
+	div.F2R{width: 10px;height: 10px;position:absolute;top:-7px;left:750px;
+	background-color:black;}
+	div.O{width: 10px;height: 10px;position:absolute;top:-7px;left:450px;
+	background-color:black;}
+	
+	div.F2LW{width: 10px;height: 10px;position:absolute;left:150px;}
+	div.F1LW{width: 10px;height: 10px;position:absolute;left:300px;}
+	div.F1RW{width: 10px;height: 10px;position:absolute;top:-25px;left:600px;}
+	div.F2RW{width: 10px;height: 10px;position:absolute;top:-25px;left:750px;}
+	div.OW{width: 10px;height: 10px;position:absolute;left:448px;}
+	
+	div.wu{width: 10px;height: 100px;background-color:hsla(36,100%,50%,1.00);clip-path: polygon(0 50%, 50% 0%, 100% 50%);top:-50px; left:20px;position: absolute;z-index:-1}
+
+	div.xiang1{width: 10px;height: 100px;background-color:hsla(36,100%,50%,1.00);clip-path: polygon(0 0, 50% 50%, 100% 0%);left:675px; position: absolute;display:block;}
+	div.xiang2{width: 10px;height: 100px;background-color:hsla(36,100%,50%,0.30);clip-path: polygon(0 50%, 50% 0%, 100% 50%);top:-50px;left:375px; position: absolute;display:block;z-index:-1}
+	
+	div.p1{width: 1000px;height: 10px;position: absolute;top:0px;left:600px; }
+	div.p2{width: 1000px;height: 10px;position: absolute;top:0px;left:665px; }
+	div.p3{width: 1000px;height: 10px;position: absolute;top:20px;left:600px; }
+	div.p4{width: 1000px;height: 10px;position: absolute;top:40px;left:600px; }
+	div.p5{width: 1000px;height: 10px;position: absolute;top:60px;left:600px; }
+	div.p6{width: 1000px;height: 10px;position: absolute;top:80px;left:600px; }
+	
+	div.lightone{width:430px;height:2px;background-color:rgba(0,157,255,1.00);position:absolute;top:-50px;left:25px;}
+	div.arrowone{}
+	div.lighttwo{width:430px;height:2px;background-color:rgba(0,157,255,1.00);position:absolute;top:-50px;left:25px;}
+	div.lightthree{}
+	
+</style>
+<script>
+function show_coords(event) {
+	var wuti = document.getElementById("lazhu");
+	var x = event.clientX;
+	wuti.style.left = x  + "px" ;
+	var shixiang = document.getElementById("xiangdao");
+	var xuxiang = document.getElementById("xiangzheng");
+	var xo = 450;
+	var u = xo - x;
+	var f = 150;
+	var v =  u*f/(u-f);
+	var wrate = 10*v/u;
+	var hrate = 100*v/u;
+	var trate = 50*v/u;
+	
+	
+	if (x < 300){
+		shixiang.style.display = "block";
+		xuxiang.style.display = "none";
+		shixiang.style.left = xo + v + "px";
+		shixiang.style.width = wrate + "px";
+		shixiang.style.height = hrate + "px";
+	}
+	else {
+		shixiang.style.display = "none";
+		xuxiang.style.display = "block";
+		wrate = -wrate;
+		hrate = -hrate;
+		xuxiang.style.top = trate + "px"
+		xuxiang.style.left = xo + v + "px";
+		xuxiang.style.width = wrate + "px";
+		xuxiang.style.height = hrate + "px";
+	}
+	if (x<300){
+		document.getElementById("one").style.color = "red";
+		document.getElementById("five").style.color = "red";
+		document.getElementById("two").style.color = "black";
+		document.getElementById("three").style.color = "black";
+		document.getElementById("six").style.color = "black";
+	}
+	if (x>150){
+		document.getElementById("four").style.color = "red";
+	}
+	else {document.getElementById("four").style.color = "black";}
+	if (x>300){
+		document.getElementById("two").style.color = "red";
+		document.getElementById("three").style.color = "red";
+		document.getElementById("six").style.color = "red";
+		document.getElementById("one").style.color = "black";
+		document.getElementById("five").style.color = "black";
+	}
+}
+</script>
+	
+</head>
+
+
+<body>
+<div id="ban" class="move" onmousemove="show_coords(event)" >凸透镜成像规律</div>
+	<div class="zhou">
+	<div class="F2L"></div>
+	<div class="F1L"></div>
+	<div class="F1R"></div>
+	<div class="F2R"></div>
+	<div class="O"></div>
+
+	<div class="F2LW">2f</div>
+	<div class="F1LW">f</div>
+	<div class="F1RW">f</div>
+	<div class="F2RW">2f</div>
+	<div class="OW">O</div>
+		
+	<div  class="wu"  id="lazhu"></div>
+	<div id="xiangdao" class="xiang1"></div>
+	<div id="xiangzheng" class="xiang2"></div>
+		
+	<div id="light1" class="lightone"></div>
+	<div id="light2" class="lighttwo"></div>
+	<div id="light3" class="lightthree"></div>
+	</div>
+	
+	<div class="jing"></div>
+	<div id="one" class="p1">实像倒、</div>
+	<div id="two" class="p2">虚像正。</div>
+	<div id="three" class="p3">一倍焦距分虚实</div>
+	<div id="four" class="p4">二倍焦距分大小</div>
+	<div id="five" class="p5">物近像远像变大</div>
+	<div id="six" class="p6">焦点以内反变化</div>
+	
+	
+
+</body>
+</html>
