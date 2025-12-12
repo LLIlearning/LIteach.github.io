@@ -1,140 +1,813 @@
-<!doctype html>
-<html>
+
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<title>凸透镜成像规律</title>
-<style>
-	div.move{width: 450px;height: 300px;background-color:}
-	div.zhou{border-top-style:dashed; position:absolute; top:150px;width:1000px}
-	
-	div.jing{ width: 20px;height: 300px;position:absolute;top:0px;left:450px;
-		border-radius: 50% / 50%;border-style: solid}
-	
-	div.F2L{width: 10px;height: 10px;position:absolute;top:-7px;left:150px;
-	background-color:black;}
-	div.F1L{width: 10px;height: 10px;position:absolute;top:-7px;left:300px;
-	background-color:black;}
-	div.F1R{width: 10px;height: 10px;position:absolute;top:-7px;left:600px;
-	background-color:black;}
-	div.F2R{width: 10px;height: 10px;position:absolute;top:-7px;left:750px;
-	background-color:black;}
-	div.O{width: 10px;height: 10px;position:absolute;top:-7px;left:450px;
-	background-color:black;}
-	
-	div.F2LW{width: 10px;height: 10px;position:absolute;left:150px;}
-	div.F1LW{width: 10px;height: 10px;position:absolute;left:300px;}
-	div.F1RW{width: 10px;height: 10px;position:absolute;top:-25px;left:600px;}
-	div.F2RW{width: 10px;height: 10px;position:absolute;top:-25px;left:750px;}
-	div.OW{width: 10px;height: 10px;position:absolute;left:448px;}
-	
-	div.wu{width: 10px;height: 100px;background-color:hsla(36,100%,50%,1.00);clip-path: polygon(0 50%, 50% 0%, 100% 50%);top:-50px; left:20px;position: absolute;z-index:-1}
-
-	div.xiang1{width: 10px;height: 100px;background-color:hsla(36,100%,50%,1.00);clip-path: polygon(0 0, 50% 50%, 100% 0%);left:675px; position: absolute;display:block;}
-	div.xiang2{width: 10px;height: 100px;background-color:hsla(36,100%,50%,0.30);clip-path: polygon(0 50%, 50% 0%, 100% 50%);top:-50px;left:375px; position: absolute;display:block;z-index:-1}
-	
-	div.p1{width: 1000px;height: 10px;position: absolute;top:0px;left:600px; }
-	div.p2{width: 1000px;height: 10px;position: absolute;top:0px;left:665px; }
-	div.p3{width: 1000px;height: 10px;position: absolute;top:20px;left:600px; }
-	div.p4{width: 1000px;height: 10px;position: absolute;top:40px;left:600px; }
-	div.p5{width: 1000px;height: 10px;position: absolute;top:60px;left:600px; }
-	div.p6{width: 1000px;height: 10px;position: absolute;top:80px;left:600px; }
-	
-	div.lightone{width:430px;height:2px;background-color:rgba(0,157,255,1.00);position:absolute;top:-50px;left:25px;}
-	div.arrowone{}
-	div.lighttwo{width:430px;height:2px;background-color:rgba(0,157,255,1.00);position:absolute;top:-50px;left:25px;}
-	div.lightthree{}
-	
-</style>
-<script>
-function show_coords(event) {
-	var wuti = document.getElementById("lazhu");
-	var x = event.clientX;
-	wuti.style.left = x  + "px" ;
-	var shixiang = document.getElementById("xiangdao");
-	var xuxiang = document.getElementById("xiangzheng");
-	var xo = 450;
-	var u = xo - x;
-	var f = 150;
-	var v =  u*f/(u-f);
-	var wrate = 10*v/u;
-	var hrate = 100*v/u;
-	var trate = 50*v/u;
-	
-	
-	if (x < 300){
-		shixiang.style.display = "block";
-		xuxiang.style.display = "none";
-		shixiang.style.left = xo + v + "px";
-		shixiang.style.width = wrate + "px";
-		shixiang.style.height = hrate + "px";
-	}
-	else {
-		shixiang.style.display = "none";
-		xuxiang.style.display = "block";
-		wrate = -wrate;
-		hrate = -hrate;
-		xuxiang.style.top = trate + "px"
-		xuxiang.style.left = xo + v + "px";
-		xuxiang.style.width = wrate + "px";
-		xuxiang.style.height = hrate + "px";
-	}
-	if (x<300){
-		document.getElementById("one").style.color = "red";
-		document.getElementById("five").style.color = "red";
-		document.getElementById("two").style.color = "black";
-		document.getElementById("three").style.color = "black";
-		document.getElementById("six").style.color = "black";
-	}
-	if (x>150){
-		document.getElementById("four").style.color = "red";
-	}
-	else {document.getElementById("four").style.color = "black";}
-	if (x>300){
-		document.getElementById("two").style.color = "red";
-		document.getElementById("three").style.color = "red";
-		document.getElementById("six").style.color = "red";
-		document.getElementById("one").style.color = "black";
-		document.getElementById("five").style.color = "black";
-	}
-}
-</script>
-	
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>凸透镜成像原理模拟器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 25px;
+        }
+        
+        .controls {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            margin-right: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .control-group {
+            margin-bottom: 30px;
+        }
+        
+        .control-group h3 {
+            margin-bottom: 18px;
+            color: #444;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 8px;
+            font-size: 20px;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .slider-container label {
+            width: 140px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .slider-container input[type="range"] {
+            flex: 1;
+            margin: 0 15px;
+            height: 8px;
+            border-radius: 5px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2575fc;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .slider-container .value {
+            width: 60px;
+            text-align: right;
+            font-weight: bold;
+            color: #2575fc;
+            font-size: 16px;
+        }
+        
+        .simulation-container {
+            flex: 2;
+            min-width: 500px;
+            position: relative;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .canvas-controls {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .canvas-btn {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .canvas-btn:hover {
+            background: #2575fc;
+            color: white;
+        }
+        
+        .canvas-btn.active {
+            background: #2575fc;
+            color: white;
+        }
+        
+        .zoom-info {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .canvas-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: #f0f2f5;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .info-panel {
+            padding: 20px;
+            background: #e8f4fd;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 5px solid #2575fc;
+        }
+        
+        .info-panel h3 {
+            margin-bottom: 15px;
+            color: #2575fc;
+            font-size: 22px;
+        }
+        
+        .info-item {
+            margin-bottom: 12px;
+            display: flex;
+            font-size: 16px;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            width: 150px;
+        }
+        
+        .info-value {
+            flex: 1;
+        }
+        
+        .principle-list {
+            margin-top: 25px;
+            padding-left: 25px;
+        }
+        
+        .principle-list li {
+            margin-bottom: 12px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .principle-list strong {
+            color: #2575fc;
+        }
+        
+        .image-type {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background: #ffeaa7;
+            display: inline-block;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .controls {
+                margin-right: 0;
+                margin-bottom: 25px;
+            }
+            
+            .simulation-container {
+                min-width: 100%;
+            }
+        }
+    </style>
 </head>
-
-
 <body>
-<div id="ban" class="move" onmousemove="show_coords(event)" >凸透镜成像规律</div>
-	<div class="zhou">
-	<div class="F2L"></div>
-	<div class="F1L"></div>
-	<div class="F1R"></div>
-	<div class="F2R"></div>
-	<div class="O"></div>
+    <div class="container">
+        <header>
+            <h1>凸透镜成像原理模拟器</h1>
+            <p class="subtitle">通过调整焦距、物距和物体高度，观察凸透镜成像规律及光线路径变化</p>
+        </header>
+        
+        <div class="content">
+            <div class="controls">
+                <div class="control-group">
+                    <h3>透镜参数</h3>
+                    <div class="slider-container">
+                        <label for="focal-length">焦距 (f):</label>
+                        <input type="range" id="focal-length" min="50" max="200" value="100">
+                        <span class="value" id="focal-length-value">100</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3>物体参数</h3>
+                    <div class="slider-container">
+                        <label for="object-distance">物距 (u):</label>
+                        <input type="range" id="object-distance" min="10" max="400" value="200">
+                        <span class="value" id="object-distance-value">200</span>
+                    </div>
+                    
+                    <div class="slider-container">
+                        <label for="object-height">物体高度 (h):</label>
+                        <input type="range" id="object-height" min="10" max="150" value="100">
+                        <span class="value" id="object-height-value">40</span>
+                    </div>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>成像信息</h3>
+                    <div class="info-item">
+                        <span class="info-label">像距 (v):</span>
+                        <span class="info-value" id="image-distance-value">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">像高:</span>
+                        <span class="info-value" id="image-height-value">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">放大率:</span>
+                        <span class="info-value" id="magnification-value">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">成像类型:</span>
+                        <span class="info-value" id="image-type-value">--</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="simulation-container">
+                <div class="canvas-controls">
+                    <button class="canvas-btn" id="lock-btn">锁定画布</button>
+                    <button class="canvas-btn" id="reset-view-btn">重置视图</button>
+                </div>
+                <div class="zoom-info"><span id="zoom-level">100%</span> </div>
 
-	<div class="F2LW">2f</div>
-	<div class="F1LW">f</div>
-	<div class="F1RW">f</div>
-	<div class="F2RW">2f</div>
-	<div class="OW">O</div>
-		
-	<div  class="wu"  id="lazhu"></div>
-	<div id="xiangdao" class="xiang1"></div>
-	<div id="xiangzheng" class="xiang2"></div>
-		
-	<div id="light1" class="lightone"></div>
-	<div id="light2" class="lighttwo"></div>
-	<div id="light3" class="lightthree"></div>
-	</div>
-	
-	<div class="jing"></div>
-	<div id="one" class="p1">实像倒、</div>
-	<div id="two" class="p2">虚像正。</div>
-	<div id="three" class="p3">一倍焦距分虚实</div>
-	<div id="four" class="p4">二倍焦距分大小</div>
-	<div id="five" class="p5">物近像远像变大</div>
-	<div id="six" class="p6">焦点以内反变化</div>
-	
-	
+                <div class="canvas-wrapper" id="canvas-wrapper">
+                    <canvas id="lens-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-panel" style="margin: 25px; border-left: 5px solid #2575fc;">
+            <h3>凸透镜成像规律</h3>
+            <ul class="principle-list">
+                <li>当物体在二倍焦距以外时，会在一二倍焦距之间形成<strong>倒立缩小的实像</strong></li>
+                <li>当物体位于二倍焦距处时，会在二倍焦距处形成<strong>倒立等大实像</strong></li>
+                <li>当物体在一二倍焦距之间时，会在二倍焦距以外形成<strong>倒立放大的实像</strong></li>
+                <li>当物体位于焦点时，<strong>不会成像</strong></li>
+                <li>当物体在一倍焦距以内时，会成<strong>正立放大的虚像</strong></li>
+            </ul>
+            <div style="margin-top: 15px; padding: 10px; background: #fff; border-radius: 5px;">
+                <strong>操作说明：</strong> 点击"锁定画布"可以固定当前视图，取消锁定后可以拖动画布。按住Ctrl键并使用鼠标滚轮可以缩放视图。
+            </div>
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('lens-canvas');
+            const ctx = canvas.getContext('2d');
+            const canvasWrapper = document.getElementById('canvas-wrapper');
+            
+            // 获取控制元素
+            const focalLengthSlider = document.getElementById('focal-length');
+            const objectDistanceSlider = document.getElementById('object-distance');
+            const objectHeightSlider = document.getElementById('object-height');
+            const lockBtn = document.getElementById('lock-btn');
+            const resetViewBtn = document.getElementById('reset-view-btn');
+            const zoomLevel = document.getElementById('zoom-level');
+            
+            const focalLengthValue = document.getElementById('focal-length-value');
+            const objectDistanceValue = document.getElementById('object-distance-value');
+            const objectHeightValue = document.getElementById('object-height-value');
+            
+            const imageDistanceValue = document.getElementById('image-distance-value');
+            const imageHeightValue = document.getElementById('image-height-value');
+            const magnificationValue = document.getElementById('magnification-value');
+            const imageTypeValue = document.getElementById('image-type-value');
+            
+            // 初始化参数
+            let focalLength = parseInt(focalLengthSlider.value);
+            let objectDistance = parseInt(objectDistanceSlider.value);
+            let objectHeight = parseInt(objectHeightSlider.value);
+            
+            // 视图控制参数
+            let isLocked = false;
+            let scale = 1.0;
+            let offsetX = 0;
+            let offsetY = 0;
+            let isDragging = false;
+            let lastX, lastY;
+            
+            // 更新显示值
+            function updateDisplayValues() {
+                focalLengthValue.textContent = focalLength;
+                objectDistanceValue.textContent = objectDistance;
+                objectHeightValue.textContent = objectHeight;
+                zoomLevel.textContent = Math.round(scale * 100) + '%';
+            }
+            
+            // 计算像的位置和大小
+            function calculateImage() {
+                // 使用透镜公式: 1/f = 1/u + 1/v
+                let imageDistance;
+                let imageHeight;
+                let magnification;
+                let imageType;
+                let imageTypeClass = "";
+                
+                if (objectDistance === focalLength) {
+                    // 物体在焦点处，不成像
+                    imageDistance = Infinity;
+                    imageHeight = Infinity;
+                    magnification = Infinity;
+                    imageType = "不成像";
+                    imageTypeClass = "no-image";
+                } else {
+                    // 计算像距
+                    imageDistance = 1 / (1/focalLength - 1/objectDistance);
+                    
+                    // 计算放大率
+                    magnification = -imageDistance / objectDistance;
+                    
+                    // 计算像高
+                    imageHeight = objectHeight * magnification;
+                    
+                    // 判断成像类型
+                    if (objectDistance > 2 * focalLength) {
+                        imageType = "倒立缩小的实像";
+                        imageTypeClass = "inverted-diminished-real";
+                    } else if (Math.abs(objectDistance - 2 * focalLength) < 0.1) {
+                        imageType = "倒立等大的实像";
+                        imageTypeClass = "inverted-equal-real";
+                    } else if (objectDistance > focalLength && objectDistance < 2 * focalLength) {
+                        imageType = "倒立放大的实像";
+                        imageTypeClass = "inverted-magnified-real";
+                    } else if (objectDistance < focalLength) {
+                        imageType = "正立放大的虚像";
+                        imageTypeClass = "upright-magnified-virtual";
+                    }
+                }
+                
+                // 更新显示
+                imageDistanceValue.textContent = imageDistance === Infinity ? "∞" : imageDistance.toFixed(1);
+                imageHeightValue.textContent = imageHeight === Infinity ? "∞" : Math.abs(imageHeight).toFixed(1);
+                magnificationValue.textContent = magnification === Infinity ? "∞" : Math.abs(magnification).toFixed(2);
+                
+                // 设置成像类型样式
+                imageTypeValue.innerHTML = `<span class="image-type ${imageTypeClass}">${imageType}</span>`;
+                
+                return {
+                    distance: imageDistance,
+                    height: imageHeight,
+                    magnification: magnification,
+                    type: imageType,
+                    typeClass: imageTypeClass
+                };
+            }
+            
+            // 绘制透镜和成像
+            function drawLensAndImage() {
+                // 设置画布大小（根据缩放比例调整）
+                const baseWidth = 1200;
+                const baseHeight = 500;
+                canvas.width = baseWidth * scale;
+                canvas.height = baseHeight * scale;
+                
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                // 清除画布
+                ctx.clearRect(0, 0, width, height);
+                
+                // 应用缩放和平移变换
+                ctx.save();
+                ctx.scale(scale, scale);
+                ctx.translate(offsetX, offsetY);
+                
+                // 设置坐标系原点在画布中心
+                const centerX = baseWidth / 2;
+                const centerY = baseHeight / 2;
+                
+                // 绘制背景网格
+                drawGrid(baseWidth, baseHeight);
+                
+                // 绘制光轴
+                ctx.beginPath();
+                ctx.moveTo(0, centerY);
+                ctx.lineTo(baseWidth, centerY);
+                ctx.strokeStyle = '#666';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // 绘制凸透镜符号（根据提供的代码）
+                // 绘制中间竖线
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY - 80);
+                ctx.lineTo(centerX, centerY + 80);
+                ctx.strokeStyle = '#2c3e50';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                
+                // 绘制透镜的弧形
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY - 80);
+                ctx.quadraticCurveTo(centerX + 30, centerY, centerX, centerY + 80);
+                ctx.moveTo(centerX, centerY - 80);
+                ctx.quadraticCurveTo(centerX - 30, centerY, centerX, centerY + 80);
+                ctx.strokeStyle = '#3498db';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                // 标注透镜
+                ctx.font = 'bold 16px Arial';
+                ctx.fillStyle = '#2575fc';
+                ctx.fillText('凸透镜', centerX - 30, centerY - 100);
+                
+                // 标注焦点
+                const focusX1 = centerX - focalLength;
+                const focusX2 = centerX + focalLength;
+                
+                // 绘制焦点
+                ctx.beginPath();
+                ctx.arc(focusX1, centerY, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#ff6b6b';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(focusX2, centerY, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#ff6b6b';
+                ctx.fill();
+                
+                // 标注焦点
+                ctx.font = 'bold 16px Arial';
+                ctx.fillStyle = '#ff6b6b';
+                ctx.fillText('F', focusX1 - 15, centerY - 15);
+                ctx.fillText('F', focusX2 + 10, centerY - 15);
+                
+                // 标注二倍焦距点
+                const doubleFocusX1 = centerX - 2 * focalLength;
+                const doubleFocusX2 = centerX + 2 * focalLength;
+                
+                ctx.beginPath();
+                ctx.arc(doubleFocusX1, centerY, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#4ecdc4';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(doubleFocusX2, centerY, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#4ecdc4';
+                ctx.fill();
+                
+                // 标注二倍焦距点
+                ctx.fillStyle = '#4ecdc4';
+                ctx.fillText('2F', doubleFocusX1 - 20, centerY - 15);
+                ctx.fillText('2F', doubleFocusX2 + 10, centerY - 15);
+                
+                // 绘制物体
+                const objectX = centerX - objectDistance;
+                const objectTopY = centerY - objectHeight / 2;
+                const objectBottomY = centerY + objectHeight / 2;
+                
+                ctx.beginPath();
+                ctx.moveTo(objectX, centerY);
+                ctx.lineTo(objectX, objectTopY);
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                
+                // 绘制物体底部箭头
+                drawArrow(objectX, centerY, objectX, objectTopY, 10);
+                
+                // 标注物体
+                ctx.fillStyle = '#333';
+                ctx.fillText('物体', objectX - 25, objectTopY - 15);
+                
+                // 计算像的位置和大小
+                const image = calculateImage();
+                
+                // 绘制像
+                if (image.type !== "不成像") {
+                    const isVirtual = image.type === "正立放大的虚像";
+                    // 修正虚像位置 - 虚像应该在物体同侧（透镜左侧）
+                    const imageX = centerX + (isVirtual ? -Math.abs(image.distance) : image.distance);
+                    const imageTopY = centerY - (isVirtual ? Math.abs(image.height) : image.height) / 2;
+                    const imageBottomY = centerY + (isVirtual ? Math.abs(image.height) : image.height) / 2;
+                    
+                    // 绘制像
+                    ctx.beginPath();
+                    ctx.moveTo(imageX, centerY);
+                    ctx.lineTo(imageX, imageTopY);
+                    ctx.strokeStyle = isVirtual ? '#ff9f43' : '#ff6b6b';
+                    ctx.lineWidth = 4;
+                    
+                    if (isVirtual) {
+                        // 虚像用虚线表示
+                        ctx.setLineDash([5, 5]);
+                    }
+                    
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    
+                    // 绘制像底部箭头
+                    drawArrow(imageX, centerY, imageX, imageTopY, 10);
+                    
+                    // 标注像
+                    ctx.fillStyle = isVirtual ? '#ff9f43' : '#ff6b6b';
+                    // 虚像标注放在左侧，实像标注放在右侧
+                    const labelX = isVirtual ? imageX - 40 : imageX + 10;
+                    ctx.fillText(isVirtual ? '虚像' : '实像', labelX, imageTopY - 15);
+                    
+                    // 绘制光线
+                    // 第一条光线：从物体顶部平行于光轴，经过透镜后通过焦点
+                    ctx.beginPath();
+                    ctx.moveTo(objectX, objectTopY);
+                    ctx.lineTo(centerX, objectTopY);
+                    ctx.strokeStyle = '#ff9f43';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    
+                    // 经过透镜后的折射光线
+                    if (isVirtual) {
+                        // 虚像情况，光线反向延长
+                        ctx.setLineDash([5, 5]);
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, objectTopY);
+                        // 通过对侧焦点
+                        ctx.lineTo(centerX + focalLength, centerY);
+                        // 延长到像的顶部
+                        ctx.lineTo(imageX, imageTopY);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    } else {
+                        // 实像情况
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, objectTopY);
+                        // 通过异侧焦点
+                        ctx.lineTo(centerX + focalLength, centerY);
+                        // 延长到像的底部
+                        ctx.lineTo(imageX, imageTopY);
+                        ctx.stroke();
+                    }
+                    
+                    // 第二条光线：从物体顶部通过透镜中心
+                    ctx.beginPath();
+                    ctx.moveTo(objectX, objectTopY);
+                    ctx.lineTo(centerX, centerY);
+                    ctx.strokeStyle = '#2e86de';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    
+                    // 经过透镜中心后继续直线传播
+                    if (isVirtual) {
+                        // 虚像情况，光线反向延长
+                        ctx.setLineDash([5, 5]);
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        // 直接传播到像的顶部
+                        ctx.lineTo(imageX, imageTopY);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    } else {
+                        // 实像情况
+                        ctx.beginPath();
+                        ctx.moveTo(centerX, centerY);
+                        // 直接传播到像的顶部
+                        ctx.lineTo(imageX, imageTopY);
+                        ctx.stroke();
+                    }
+                }
+                
+                // 标注光轴
+                ctx.font = '16px Arial';
+                ctx.fillStyle = '#666';
+                ctx.fillText('光轴', baseWidth - 50, centerY - 10);
+                
+                ctx.restore();
+            }
+            
+            // 绘制箭头
+            function drawArrow(fromX, fromY, toX, toY, size) {
+                const angle = Math.atan2(toY - fromY, toX - fromX);
+                
+                ctx.beginPath();
+                ctx.moveTo(toX, toY);
+                ctx.lineTo(toX - size * Math.cos(angle - Math.PI/6), toY - size * Math.sin(angle - Math.PI/6));
+                ctx.moveTo(toX, toY);
+                ctx.lineTo(toX - size * Math.cos(angle + Math.PI/6), toY - size * Math.sin(angle + Math.PI/6));
+                ctx.stroke();
+            }
+            
+            // 绘制网格背景
+            function drawGrid(width, height) {
+                const gridSize = 20;
+                
+                ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.lineWidth = 1;
+                
+                // 垂直线
+                for (let x = 0; x <= width; x += gridSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, height);
+                    ctx.stroke();
+                }
+                
+                // 水平线
+                for (let y = 0; y <= height; y += gridSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(width, y);
+                    ctx.stroke();
+                }
+            }
+            
+            // 重置视图
+            function resetView() {
+                scale = 1.0;
+                offsetX = 0;
+                offsetY = 0;
+                updateDisplayValues();
+                drawLensAndImage();
+                
+                // 初始视角居中 - 确保画布显示在正中间
+                setTimeout(() => {
+                    const wrapper = canvasWrapper;
+                    const canvas = document.getElementById('lens-canvas');
+                    wrapper.scrollLeft = (canvas.width - wrapper.clientWidth) / 2;
+                    wrapper.scrollTop = (canvas.height - wrapper.clientHeight) / 2;
+                }, 100);
+            }
+            
+            // 初始视角居中函数
+            function centerInitialView() {
+                const wrapper = canvasWrapper;
+                const canvas = document.getElementById('lens-canvas');
+                
+                // 确保画布已经完全渲染
+                setTimeout(() => {
+                    wrapper.scrollLeft = (canvas.width - wrapper.clientWidth) / 2;
+                    wrapper.scrollTop = (canvas.height - wrapper.clientHeight) / 2;
+                }, 100);
+            }
+            
+            // 初始化
+            updateDisplayValues();
+            resetView();
+            
+            // 确保初始视角居中
+            window.addEventListener('load', centerInitialView);
+            
+            // 事件监听
+            focalLengthSlider.addEventListener('input', function() {
+                focalLength = parseInt(this.value);
+                updateDisplayValues();
+                drawLensAndImage();
+            });
+            
+            objectDistanceSlider.addEventListener('input', function() {
+                objectDistance = parseInt(this.value);
+                updateDisplayValues();
+                drawLensAndImage();
+            });
+            
+            objectHeightSlider.addEventListener('input', function() {
+                objectHeight = parseInt(this.value);
+                updateDisplayValues();
+                drawLensAndImage();
+            });
+            
+            // 锁定/解锁画布
+            lockBtn.addEventListener('click', function() {
+                isLocked = !isLocked;
+                lockBtn.textContent = isLocked ? '解锁画布' : '锁定画布';
+                lockBtn.classList.toggle('active', isLocked);
+            });
+            
+            // 重置视图
+            resetViewBtn.addEventListener('click', resetView);
+            
+            // 鼠标滚轮缩放
+            canvasWrapper.addEventListener('wheel', function(e) {
+                if (e.ctrlKey && !isLocked) {
+                    e.preventDefault();
+                    
+                    const rect = canvasWrapper.getBoundingClientRect();
+                    const mouseX = e.clientX - rect.left;
+                    const mouseY = e.clientY - rect.top;
+                    
+                    const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+                    const newScale = Math.max(0.5, Math.min(3, scale * zoomFactor));
+                    
+                    // 调整偏移量以保持鼠标位置不变
+                    offsetX = mouseX - (mouseX - offsetX) * (newScale / scale);
+                    offsetY = mouseY - (mouseY - offsetY) * (newScale / scale);
+                    
+                    scale = newScale;
+                    updateDisplayValues();
+                    drawLensAndImage();
+                }
+            });
+            
+            // 鼠标拖动
+            canvasWrapper.addEventListener('mousedown', function(e) {
+                if (!isLocked) {
+                    isDragging = true;
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                    canvasWrapper.style.cursor = 'grabbing';
+                }
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging && !isLocked) {
+                    const deltaX = e.clientX - lastX;
+                    const deltaY = e.clientY - lastY;
+                    
+                    offsetX += deltaX / scale;
+                    offsetY += deltaY / scale;
+                    
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                    
+                    drawLensAndImage();
+                }
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                canvasWrapper.style.cursor = 'grab';
+            });
+            
+            window.addEventListener('resize', drawLensAndImage);
+        });
+    </script>
 </body>
 </html>
